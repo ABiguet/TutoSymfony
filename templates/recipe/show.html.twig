@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les recettes{% endblock %}
+
+{% block body %}
+    coucou {{ person.name }}
+    {{ dump(person) }}
+    <p>
+        <b>Recette : </b>{{ slug | upper }}<br>
+        <b>Id : </b>{{ id }}
+    </p>
+
+{% endblock %}
