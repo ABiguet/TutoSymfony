@@ -5,7 +5,7 @@
 {% block body %}
     <p>
         <b>{{ recipe.title }}</b> (durée {{ recipe.duration }}mn)<br>
-        <p>{{ recipe.content }}</p>
+        <p>{{ recipe.content | raw }}</p>
     </p>
 
 {% endblock %}

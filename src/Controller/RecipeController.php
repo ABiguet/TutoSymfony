@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,7 +21,7 @@ final class RecipeController extends AbstractController
     }
 
     #[Route('/recette/{slug}-{id}', name: 'recipe.show', requirements: ['id' => '\d+', 'slug' => '[a-z0-9-]+'])]
-    public function show(Request $request, RecipeRepository $recipeRepository, string $slug, int $id): Response
+    public function show(RecipeRepository $recipeRepository, int $id): Response
     {
         $recipe = $recipeRepository->find($id);
         if (!$recipe) {
