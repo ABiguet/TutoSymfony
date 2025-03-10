@@ -3,11 +3,9 @@
 {% block title %}Toutes les recettes{% endblock %}
 
 {% block body %}
-    coucou {{ person.name }}
-    {{ dump(person) }}
     <p>
-        <b>Recette : </b>{{ slug | upper }}<br>
-        <b>Id : </b>{{ id }}
+        <b>{{ recipe.title }}</b> (durée {{ recipe.duration }}mn)<br>
+        <p>{{ recipe.content }}</p>
     </p>
 
 {% endblock %}

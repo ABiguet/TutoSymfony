@@ -5,8 +5,10 @@
 {% block body %}
     <h1>Toutes les recettes</h1>
     <ul>
-        <li>
-            <a href="{{ path('recipe.show', {slug: 'pates-bolognaise', id: 32}) }}">Pates bolognaise</a>
-        </li>
+        {% for recipe in recipes %}
+            <li>
+                <a href="{{ path('recipe.show', {slug: recipe.slug, id: recipe.id}) }}">{{ recipe.title }}</a>
+            </li>
+        {% endfor %}
     </ul>
 {% endblock %}
