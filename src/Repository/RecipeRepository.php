@@ -16,6 +16,20 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    /**
+     * @return Recipe[]
+     */
+    public function findWithDurationLowerThan(int $duration): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.duration <= :duration')
+            ->setParameter('duration', $duration)
+            ->orderBy('r.duration', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Recipe[] Returns an array of Recipe objects
     //     */

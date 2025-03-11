@@ -20,9 +20,15 @@ final class RecipeController extends AbstractController
     }
 
     #[Route('/recette/{slug}-{id}', name: 'recipe.show', requirements: ['id' => '\d+', 'slug' => '[a-z0-9-]+'])]
-    public function show(RecipeRepository $recipeRepository, int $id): Response
+    public function show(RecipeRepository $recipeRepository, int $id, string $slug): Response
     {
         $recipe = $recipeRepository->find($id);
+        if($recipe->getSlug() !== $slug) {
+            return $this->redirectToRoute('recipe.show', [
+                'id' => $recipe->getId(),
+                'slug' => $recipe->getSlug(),
+            ], 301);
+        }
         if (!$recipe) {
             throw $this->createNotFoundException('La recette demandée n\'existe pas');
         }
