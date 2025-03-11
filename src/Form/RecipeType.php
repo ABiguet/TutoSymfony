@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Recipe;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,14 +16,11 @@ class RecipeType extends AbstractType
         $builder
             ->add('title')
             ->add('slug')
-            ->add('content')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
+            ->add('content', TextareaType::class)
+            ->add('createdAt')
+            ->add('updatedAt')
             ->add('duration')
+            ->add('save', SubmitType::class, ['label' => 'Sauvegarder'])
         ;
     }
 

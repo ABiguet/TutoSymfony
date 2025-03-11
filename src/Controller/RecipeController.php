@@ -14,7 +14,6 @@ final class RecipeController extends AbstractController
     #[Route('/recette', name: 'recipe.index')]
     public function index(RecipeRepository $recipeRepository): Response
     {
-        /** @var Recipe[] $recipes */
         $recipes = $recipeRepository->findAll();
 
         return $this->render('recipe/index.html.twig', [
