@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class RecipeController extends AbstractController
 {
     #[Route('/recette', name: 'recipe.index')]
-    public function index(Request $request, RecipeRepository $recipeRepository): Response
+    public function index(RecipeRepository $recipeRepository): Response
     {
         $recipeList = $recipeRepository->findAll();
         return $this->render('recipe/index.html.twig', [
