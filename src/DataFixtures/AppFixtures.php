@@ -3,13 +3,14 @@
 namespace App\DataFixtures;
 
 use App\Entity\Recipe;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
-    private $slugger;
+    private SluggerInterface $slugger;
 
     public function __construct(SluggerInterface $slugger)
     {
@@ -76,8 +77,8 @@ class AppFixtures extends Fixture
             $recipe->setTitle($data['title']);
             $recipe->setSlug($this->slugger->slug($data['title'])->lower());
             $recipe->setContent($data['content']);
-            $recipe->setCreatedAt(new \DateTimeImmutable());
-            $recipe->setUpdatedAt(new \DateTimeImmutable());
+            $recipe->setCreatedAt(new DateTimeImmutable());
+            $recipe->setUpdatedAt(new DateTimeImmutable());
             $recipe->setDuration($data['duration']);
             $manager->persist($recipe);
         }
