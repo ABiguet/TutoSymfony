@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Recipe;
+use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,10 +14,11 @@ final class RecipeController extends AbstractController
     #[Route('/recette', name: 'recipe.index')]
     public function index(RecipeRepository $recipeRepository): Response
     {
-        $recipeList = $recipeRepository->findAll();
+        /** @var Recipe[] $recipes */
+        $recipes = $recipeRepository->findAll();
+
         return $this->render('recipe/index.html.twig', [
-            'controller_name' => 'RecipeController',
-            'recipes' => $recipeList,
+            'recipes' => $recipes,
         ]);
     }
 
@@ -29,12 +32,18 @@ final class RecipeController extends AbstractController
                 'slug' => $recipe->getSlug(),
             ], 301);
         }
-        if (!$recipe) {
-            throw $this->createNotFoundException('La recette demandée n\'existe pas');
-        }
         return $this->render('recipe/show.html.twig', [
-            'controller_name' => 'RecipeController',
             'recipe' => $recipe,
+        ]);
+    }
+
+    #[Route('/recette/{id}/edit', name: 'recipe.edit', methods: ['GET','POST'])]
+    public function edit(Recipe $recipe): Response
+    {
+        $form = $this->createForm(RecipeType::class, $recipe);
+        return $this->render('recipe/edit.html.twig', [
+            'recipe' => $recipe,
+            'form' => $form->createView(),
         ]);
     }
 }
