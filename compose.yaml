@@ -1,27 +1,45 @@
-
 services:
   adminer:
-      image: adminer:latest
-      restart: always
-      ports:
-        - 8080:8080
-###> doctrine/doctrine-bundle ###
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
+
+  ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     ports:
       - '5432:5432'
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_USER: ${POSTGRES_USER:-admin}
     volumes:
       - ./database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
+
+  nginx:
+    image: nginx:alpine
+    container_name: symfony_nginx
+    ports:
+      - "8081:80" # Le port 8081 expose ici Nginx
+    volumes:
+      - ./public:/usr/share/nginx/html:ro # Liens vers le dossier public
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro # Config de Nginx
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ./docker/php
+    image: php:8.2-fpm-alpine
+    container_name: symfony_php
+    volumes:
+      - .:/var/www/html # Montre le projet Symfony dans PHP (accessible à Symfony)
+    depends_on:
+      - database
 
 volumes:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
