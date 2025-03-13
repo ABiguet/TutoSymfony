@@ -4,8 +4,8 @@
 
 {% block body %}
     <p>
-        <b>{{ recipe.title }}</b> (durée {{ recipe.duration }}mn)<br>
+        <b>{{ recipe.title }}</b> (durée {{ recipe.duration }}mn)  <br>
+        <a href="{{ path('recipe.edit', { id: recipe.id }) }}">Modifier</a>
         <p>{{ recipe.content | raw }}</p>
-    </p>
 
 {% endblock %}

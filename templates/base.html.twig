@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8">
 		<title>
@@ -28,7 +28,9 @@
 			</div>
 		</nav>
 
-		<div class="container my-4"> {% block body %}{% endblock %}
-			</div>
-		</body>
-	</html>
+		<div class="container my-4">
+			{% include 'partials/flash.html.twig' %}
+			{% block body %}{% endblock %}
+		</div>
+	</body>
+</html>

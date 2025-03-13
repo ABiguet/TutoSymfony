@@ -5,8 +5,9 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use DateTimeImmutable;
 
-#[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[ORM\Entity(repositoryClass: RecipeRepository::class), ORM\HasLifecycleCallbacks]
 class Recipe
 {
     #[ORM\Id]
@@ -114,5 +115,18 @@ class Recipe
         $this->duration = $duration;
 
         return $this;
+    }
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $now = new \DateTimeImmutable();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

@@ -23,5 +23,5 @@
 
 /.idea
 ###> phpstan/phpstan ###
-phpstan.neon
+phpstan.local.neon
 ###< phpstan/phpstan ###
