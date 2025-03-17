@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use App\Validator\BanWord;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeImmutable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class), ORM\HasLifecycleCallbacks]
+#[UniqueEntity('title')]
+#[UniqueEntity('slug')]
 class Recipe
 {
     #[ORM\Id]
@@ -16,12 +20,18 @@ class Recipe
     private int $id;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank, Assert\Length(min: 5, max: 255)]
+    #[BanWord()]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 5, max: 255), Assert\Regex(
+        pattern: '/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+        message: 'The slug can only contain lowercase letters, numbers, and dashes.')]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank, Assert\Length(min: 10, max: 1000000)]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -31,6 +41,8 @@ class Recipe
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
+    #[Assert\LessThan(value: 1440, message: 'The duration must be less than 24 hours.')]
     private ?int $duration = null;
 
     public function getId(): ?int
