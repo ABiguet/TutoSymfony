@@ -9,8 +9,6 @@ final class BanWordValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        /* @var BanWord $constraint */
-
         if (null === $value || '' === $value) {
             return;
         }
