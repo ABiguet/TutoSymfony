@@ -13,10 +13,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class RecipeController extends AbstractController
 {
-    #[Route('/recette', name: 'recipe.index')]
-    public function index(RecipeRepository $recipeRepository): Response
+    public function __construct(private readonly RecipeRepository $recipeRepository)
     {
-        $recipes = $recipeRepository->findAll();
+    }
+    #[Route('/recette', name: 'recipe.index')]
+    public function index(): Response
+    {
+        $recipes = $this->recipeRepository->findAll();
 
         return $this->render('recipe/index.html.twig', [
             'recipes' => $recipes,
@@ -24,9 +27,9 @@ final class RecipeController extends AbstractController
     }
 
     #[Route('/recette/{slug}-{id}', name: 'recipe.show', requirements: ['id' => '\d+', 'slug' => '[a-z0-9-]+'])]
-    public function show(RecipeRepository $recipeRepository, int $id, string $slug): Response
+    public function show(int $id, string $slug): Response
     {
-        $recipe = $recipeRepository->find($id);
+        $recipe = $this->recipeRepository->find($id);
         if($recipe->getSlug() !== $slug) {
             return $this->redirectToRoute('recipe.show', [
                 'id' => $recipe->getId(),
