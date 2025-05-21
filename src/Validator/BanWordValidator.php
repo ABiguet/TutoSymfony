@@ -7,6 +7,10 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 final class BanWordValidator extends ConstraintValidator
 {
+    /**
+     * @param mixed $value
+     * @param BanWord $constraint
+     */
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (null === $value || '' === $value) {

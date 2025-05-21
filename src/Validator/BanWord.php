@@ -9,6 +9,7 @@ class BanWord extends Constraint
 {
     public function __construct(
         public string $message = 'This value "{{ banWord }}" is not allowed.',
+        /** @var string[] $banWords */
         public array $banWords = ['spam', 'viagra'],
         ?array $groups = null,
         mixed $payload = null
