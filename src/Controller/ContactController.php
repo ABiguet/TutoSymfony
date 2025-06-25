@@ -25,7 +25,7 @@ final class ContactController extends AbstractController
             // Création de l'email
             $email = (new Email())
                 ->from($contactDto->email)
-                ->to('destinataire@exemple.com')
+                ->to('contact@exemple.com')
                 ->subject('Nouveau message de contact')
                 ->text(
                     "Nom : {$contactDto->nom}\n" .
