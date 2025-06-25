@@ -1,0 +1,13 @@
+{# filepath: templates/contact/form.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contact</h1>
+    {{ form_start(form) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.message) }}
+        <button class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+{% endblock %}
