@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\ContactDto;
 use App\Form\ContactType;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,15 +24,14 @@ final class ContactController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Création de l'email
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from($contactDto->email)
-                ->to('contact@exemple.com')
+                ->to($contactDto->service) // Envoi au service sélectionné
                 ->subject('Nouveau message de contact')
-                ->text(
-                    "Nom : {$contactDto->nom}\n" .
-                    "Email : {$contactDto->email}\n\n" .
-                    $contactDto->message
-                );
+                ->htmlTemplate('emails/contact.html.twig')
+                ->context([
+                    'contact' => $contactDto,
+                ]);
 
             // Envoi de l'email
             $mailer->send($email);
@@ -42,7 +42,7 @@ final class ContactController extends AbstractController
         }
 
         return $this->render('contact/form.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(), 
         ]);
     }
 }

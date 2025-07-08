@@ -1,0 +1,16 @@
+{# filepath: /home/aurel/Workflow/TutoSymfony/templates/mail/contact.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande de contact</title>
+</head>
+<body>
+    <h2>Nouveau message de contact</h2>
+    <p><strong>Nom :</strong> {{ contact.nom }}</p>
+    <p><strong>Email :</strong> {{ contact.email }}</p>
+    <p><strong>Message :</strong></p>
+    <p>{{ contact.message|nl2br }}</p>
+</body>
+</html>

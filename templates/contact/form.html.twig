@@ -5,9 +5,10 @@
 {% block body %}
     <h1>Nous contacter</h1>
     {{ form_start(form) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.message) }}
-        <button class="btn btn-primary">Envoyer</button>
+    <div class="row">
+        <div class="col-sm">{{ form_row(form.nom) }}</div>
+        <div class="col-sm"> {{ form_row(form.email) }}</div>
+        <div class="col-sm">{{ form_row(form.service) }}</div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
