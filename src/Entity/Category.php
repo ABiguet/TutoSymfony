@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeRepository;
+use App\Repository\CategoryRepository;
 use App\Validator\BanWord;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: RecipeRepository::class), ORM\HasLifecycleCallbacks]
-#[UniqueEntity('title')]
-#[UniqueEntity('slug')]
-class Recipe
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,23 +30,22 @@ class Recipe
         message: 'The slug can only contain lowercase letters, numbers, and dashes.')]
     private ?string $slug = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank, Assert\Length(min: 10, max: 1000000)]
-    private ?string $content = null;
-
-    #[ORM\Column]
+     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
-    #[Assert\Positive()]
-    #[Assert\LessThan(value: 1440, message: 'The duration must be less than 24 hours.')]
-    private ?int $duration = null;
+    /**
+     * @var Collection<int, Recipe>
+     */
+    #[ORM\OneToMany(targetEntity: Recipe::class, mappedBy: 'category')]
+    private Collection $recipes;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes')]
-    private ?Category $category = null;
+    public function __construct()
+    {
+        $this->recipes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -84,18 +83,6 @@ class Recipe
         return $this;
     }
 
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): static
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -114,23 +101,12 @@ class Recipe
     }
 
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
+    {   
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(?int $duration): static
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
@@ -145,14 +121,32 @@ class Recipe
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function getCategory(): ?Category
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
     {
-        return $this->category;
+        return $this->recipes;
     }
 
-    public function setCategory(?Category $category): static
+    public function addRecipe(Recipe $recipe): static
     {
-        $this->category = $category;
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): static
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            // set the owning side to null (unless already changed)
+            if ($recipe->getCategory() === $this) {
+                $recipe->setCategory(null);
+            }
+        }
 
         return $this;
     }

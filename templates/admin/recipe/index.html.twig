@@ -1,15 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin.html.twig' %}
 
 {% block title %}Toutes les recettes{% endblock %}
 
 {% block body %}
     <h1>Toutes les recettes</h1>
-    <a class="btn btn-primary" href="{{ path('recipe.create') }}">Créer une recette</a>
+    <a class="btn btn-primary" href="{{ path('admin.recipe.create') }}">Créer une recette</a>
     <table class="table">
         <thead>
         <tr>
             <th>Titre</th>
-            <th>Ations</th>
+            <th>Catégorie</th>
+            <th>Actions</th>
             <th>Crée le</th>
             <th>Modifié le</th>
         </tr>
@@ -17,11 +18,18 @@
         <tbody>
         {% for recipe in recipes %}
         <tr>
-            <td><a href="{{ path('recipe.show', {slug: recipe.slug, id: recipe.id}) }}">{{ recipe.title }}</a></td>
+            <td><a href="{{ path('admin.recipe.edit', {id: recipe.id}) }}">{{ recipe.title }}</a></td>
+            <td>
+                {% if recipe.category %}
+                    {{ recipe.category.title }}
+                {% else %}
+                    <span class="text-muted">Aucune catégorie</span>
+                {% endif %}
+            </td>
             <td>
                 <div class="d-flex gap-2">
-                    <a class="btn btn-primary" href="{{ path('recipe.edit', {id: recipe.id}) }}">Modifier</a>
-                    <form action="{{ path('recipe.delete', { id: recipe.id }) }}" method="post">
+                    <a class="btn btn-primary" href="{{ path('admin.recipe.edit', {id: recipe.id}) }}">Modifier</a>
+                    <form action="{{ path('admin.recipe.delete', { id: recipe.id }) }}" method="post">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger">Supprimer</button>
                     </form>

@@ -1,0 +1,13 @@
+{# templates/recipe/create.html.twig #}
+
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Créer une recette{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle recette</h1>
+
+    {% include 'admin/recipe/form.html.twig' %}
+
+    <a href="{{ path('admin.recipe.index') }}" class="btn btn-secondary">Retour à la liste des recettes</a>
+{% endblock %}

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}Administration
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
@@ -18,12 +18,11 @@
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<div class="container">
-				<a class="navbar-brand" href="{{ path('home') }}">Navbar</a>
+				<a class="navbar-brand" href="{{ path('admin.recipe.index') }}">Administration</a>
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
-						<a class="nav-link {{ app.current_route == 'home' ? 'active' : '' }}" href="{{ path('home') }}">Home</a>
-						{# <a class="nav-link {{ app.current_route starts with 'recipe.' ? 'active' : '' }}" href="{{ path('recipe.index') }}">Recipes</a> #}
-						<a class="nav-link {{ app.current_route == 'contact' ? 'active' : '' }}" href="{{ path('contact') }}">Contact</a>
+						<a class="nav-link {{ app.current_route == 'admin.recipe.index' ? 'active' : '' }}" href="{{ path('admin.recipe.index') }}">Recettes</a>
+						<a class="nav-link {{ app.current_route == 'admin.category.index' ? 'active' : '' }}" href="{{ path('admin.category.index') }}">Catégories</a>
 					</div>
 				</div>
 			</div>

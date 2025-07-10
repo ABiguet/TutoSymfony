@@ -1,0 +1,15 @@
+{# templates/recipe/create.html.twig #}
+
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Créer une Catégorie{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle Catégorie</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('admin.category.index') }}" class="btn btn-secondary">Retour à la liste des categories</a>
+{% endblock %}

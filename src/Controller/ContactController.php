@@ -23,8 +23,10 @@ final class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Création de l'email
-            $email = (new TemplatedEmail())
+            // Envoi de l'email
+            try {
+                // Création de l'email
+                $email = (new TemplatedEmail())
                 ->from($contactDto->email)
                 ->to($contactDto->service) // Envoi au service sélectionné
                 ->subject('Nouveau message de contact')
@@ -33,12 +35,14 @@ final class ContactController extends AbstractController
                     'contact' => $contactDto,
                 ]);
 
-            // Envoi de l'email
-            $mailer->send($email);
-
-            $this->addFlash('success', 'Votre message a bien été envoyé !');
-            // Redirection pour éviter le resoumission du formulaire
-            return $this->redirectToRoute('contact');
+                $mailer->send($email);
+                $this->addFlash('success', 'Votre message a bien été envoyé !');
+                // Redirection pour éviter le resoumission du formulaire
+                return $this->redirectToRoute('contact');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.');
+                return $this->redirectToRoute('contact');
+            }
         }
 
         return $this->render('contact/form.html.twig', [
