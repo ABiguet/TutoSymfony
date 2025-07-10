@@ -1,0 +1,15 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <h1>Panel d'administration</h1>
+    <div>
+    <ul>
+        <li><a href="{{ path('admin.recipe.index') }}">Recettes</a></li>
+        <li><a href="{{ path('admin.category.index') }}">Catégories</a></li>
+    </ul>
+    </div>
+
+{% endblock %}

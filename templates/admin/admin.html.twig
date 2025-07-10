@@ -18,9 +18,10 @@
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<div class="container">
-				<a class="navbar-brand" href="{{ path('admin.recipe.index') }}">Administration</a>
+				<a class="navbar-brand" href="{{ path('admin.home.index') }}">Administration</a>
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<div class="navbar-nav">
+						<a class="nav-link {{ app.current_route == 'admin.home.index' ? 'active' : '' }}" href="{{ path('admin.home.index') }}">Accueil</a>
 						<a class="nav-link {{ app.current_route == 'admin.recipe.index' ? 'active' : '' }}" href="{{ path('admin.recipe.index') }}">Recettes</a>
 						<a class="nav-link {{ app.current_route == 'admin.category.index' ? 'active' : '' }}" href="{{ path('admin.category.index') }}">Catégories</a>
 					</div>
