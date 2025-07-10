@@ -1,0 +1,13 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title category.title %}
+
+{% block body %}
+    <h1>Editer la categorie {{ category.title }}</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('admin.category.index') }}" class="btn btn-secondary">Retour à la liste des categories</a>
+{% endblock %}

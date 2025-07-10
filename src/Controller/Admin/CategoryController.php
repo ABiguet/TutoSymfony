@@ -29,7 +29,7 @@ final class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('create', name: 'create', methods: ['GET', 'POST'])]
+    #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $category = new Category();
@@ -45,5 +45,30 @@ final class CategoryController extends AbstractController
         return $this->render('admin/category/create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS])]
+    public function edit(Request $request, Category $category, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'La catégorie a bien été modifiée');
+            return $this->redirectToRoute('admin.category.index');
+        }
+        return $this->render('admin/category/edit.html.twig', [
+            'form' => $form->createView(),
+            'category' => $category,
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => Requirement::DIGITS])]
+    public function delete(Category $category, EntityManagerInterface $em): Response
+    {
+        $em->remove($category);
+        $em->flush();
+        $this->addFlash('warning', 'La recette a bien été supprimée');
+        return $this->redirectToRoute('admin.category.index');
     }
 }

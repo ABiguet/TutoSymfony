@@ -19,13 +19,13 @@
         <tr>
             <td>{{ category.title }}</a></td>
             <td>
-                {# <div class="d-flex gap-2">
+                <div class="d-flex gap-2">
                     <a class="btn btn-primary" href="{{ path('admin.category.edit', {id: category.id}) }}">Modifier</a>
                     <form action="{{ path('admin.category.delete', { id: category.id }) }}" method="post">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger">Supprimer</button>
                     </form>
-                </div> #}
+                </div>
 
             </td>
             <td>{{ category.createdAt | date('d-m-Y') }}</td>
