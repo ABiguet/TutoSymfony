@@ -45,7 +45,7 @@ class Recipe
     #[Assert\LessThan(value: 1440, message: 'The duration must be less than 24 hours.')]
     private ?int $duration = null;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    #[ORM\ManyToOne(inversedBy: 'recipes', cascade: ['persist'])]
     private ?Category $category = null;
 
     public function getId(): ?int

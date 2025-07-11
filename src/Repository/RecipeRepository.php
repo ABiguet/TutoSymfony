@@ -30,6 +30,18 @@ class RecipeRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Recipe[]
+     */
+    public function getRecipes(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r', 'c')
+            ->leftJoin('r.category', 'c')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Recipe[] Returns an array of Recipe objects
     //     */

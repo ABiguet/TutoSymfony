@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Recipe;
+use App\Entity\Category;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -33,7 +34,7 @@ class RecipeType extends AbstractType
             ])
             ->add('duration')
             ->add('category', EntityType::class, [
-                'class' => \App\Entity\Category::class,
+                'class' => Category::class,
                 'choice_label' => 'title',
                 'placeholder' => 'Sélectionnez une catégorie',
                 'required' => true,
