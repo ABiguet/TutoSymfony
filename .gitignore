@@ -23,6 +23,13 @@
 /data/
 
 /.idea
+/.vscode
 ###> phpstan/phpstan ###
 phpstan.local.neon
 ###< phpstan/phpstan ###
+
+###> exclude images from VichUploaderBundle ###
+# This is a custom mapping for VichUploaderBundle to exclude images from being uploaded
+# to the public directory.
+# It is not a standard practice, but it is used here for demonstration purposes.
+/public/images/recipes/

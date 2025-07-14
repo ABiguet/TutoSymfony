@@ -30,7 +30,7 @@ class RecipeType extends AbstractType
             ->add('slug', TextType::class, [
                 'required' => false]
             )
-            ->add('thumbnailFile', FileType::class)
+            ->add('thumbnailFile', FileType::class, [ 'required' => false ])
             ->add('content', TextareaType::class, [
                 'empty_data' => ''
             ])

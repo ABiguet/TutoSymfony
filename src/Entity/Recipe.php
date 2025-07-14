@@ -188,6 +188,11 @@ class Recipe
     public function setThumbnailFile(?File $thumbnailFile): static
     {
         $this->thumbnailFile = $thumbnailFile;
+
+        if ($thumbnailFile !== null) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
         return $this;
     }
 }

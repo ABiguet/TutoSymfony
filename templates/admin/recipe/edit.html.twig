@@ -4,5 +4,8 @@
 
 {% block body %}
     <h1>Edit a recipe</h1>
+    {% if recipe.thumbnail %}
+        <img src="{{ asset('images/recipes/' ~ recipe.thumbnail) }}" alt="Image de la recette" style="max-width:300px; max-height:300px; display:block; margin-bottom:1em;">
+    {% endif %}
     {% include 'admin/recipe/form.html.twig' %}
 {% endblock %}
